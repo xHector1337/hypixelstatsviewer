@@ -4,10 +4,9 @@ import datetime
 key = ""
 
 def usernameToUUID(username):
-    request = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}")
+    request = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username.strip()}")
     data = request.json()
     return data["id"]
-
 def playerInfo(key,uuid):
     r = requests.get(f"https://api.hypixel.net/v2/player?key={key}&uuid={uuid}")
     data = r.json()
@@ -154,7 +153,7 @@ def skywarsSoloWins(data):
             if "wins_solo" in data["player"]["stats"]["SkyWars"]:
                 wins = data["player"]["stats"]["SkyWars"]["wins_solo"]
     return wins
-def skywarsTeamWins(data):
+def skywarsTeamsWins(data):
     wins = 0
     if "stats" in data["player"]:
         if "SkyWars" in data["player"]["stats"]:
@@ -168,13 +167,70 @@ def skywarsSouls(data):
             if "souls" in data["player"]["stats"]["SkyWars"]:
                 souls = data["player"]["stats"]["SkyWars"]["souls"]
     return souls
-def buildbattleWins(data):
+def buildbattleTotalWins(data):
     wins = 0
     if "stats" in data["player"]:
         if "BuildBattle" in data["player"]["stats"]:
             if "wins" in data["player"]["stats"]["BuildBattle"]:
                 wins = data["player"]["stats"]["BuildBattle"]["wins"]
-    return wins                                                                                                                                                                                             
+    return wins
+def buildbattleCoins(data):
+    coins = 0
+    if "stats" in data["player"]:
+        if "BuildBattle" in data["player"]["stats"]:
+            if "coins" in data["player"]["stats"]["BuildBattle"]:
+                coins = data["player"]["stats"]["BuildBattle"]["coins"]
+    return coins
+def buildbattleSelectedHat(data):
+    newSelectedHat = "None"
+    if "stats" in data["player"]:
+        if "BuildBattle" in data["player"]["stats"]:
+            if "new_selected_hat" in data["player"]["stats"]["BuildBattle"]:
+                newSelectedHat = data["player"]["stats"]["BuildBattle"]["new_selected_hat"]
+    if newSelectedHat == "hats_none":
+        newSelectedHat = "None"
+    return newSelectedHat.replace("_"," ")
+def buildbattleSelectedBackground(data):
+    background = "None"
+    if "stats" in data["player"]:
+        if "BuildBattle" in data["player"]["stats"]:
+            if "selected_backdrop" in data["player"]["stats"]["BuildBattle"]:
+                background = data["player"]["stats"]["BuildBattle"]["selected_backdrop"].split("backdrops_")[1].replace("_"," ")
+    return background            
+def buildbattleSoloWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "BuildBattle" in data["player"]["stats"]:
+            if "wins_solo_normal" in data["player"]["stats"]["BuildBattle"]:
+                wins = data["player"]["stats"]["BuildBattle"]["wins_solo_normal"]
+    return wins
+def buildbattleTeamsWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "BuildBattle" in data["player"]["stats"]:
+            if "wins_teams_normal" in data["player"]["stats"]["BuildBattle"]:
+                wins = data["player"]["stats"]["BuildBattle"]["wins_teams_normal"]
+    return wins
+def buildbattleLastPurchasedSong(data):
+    song = "None"
+    if "stats" in data["player"]:
+        if "BuildBattle" in data["player"]["stats"]:
+            if "last_purchased_song" in data["player"]["stats"]["BuildBattle"]:
+                song = data["player"]["stats"]["BuildBattle"]["last_purchased_song"]
+    return song
+def userRecentGameType(data):
+    game = "None"
+    if "mostRecentGameType" in data["player"]:
+        game = data["player"]["mostRecentGameType"]
+    return game
+def buildbattleSoloMostPoints(data):
+    points = 0
+    if "stats" in data["player"]:
+        if "BuildBattle" in data["player"]["stats"]:
+            if "solo_most_points" in data["player"]["stats"]["BuildBattle"]:
+                points = data["player"]["stats"]["BuildBattle"]["solo_most_points"]
+    return points                                                
+                                                                                                                                                                                                                                                       
 myuuid = usernameToUUID("IamSaulGoodman")
 data = playerInfo(key,myuuid)
 rank = rankParser(data)
@@ -192,5 +248,5 @@ ClickEffect = currentClickEffect(data)
 Socials = socialMediaParser(data)
 Language = userLanguage(data)
 gifts = giftsStats(data)
-skywarsTeamsWins = skywarsTeamWins(data)
-print(buildbattleWins(data))
+print(userRecentGameType(data))
+
