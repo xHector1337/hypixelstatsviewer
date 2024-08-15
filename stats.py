@@ -40,7 +40,9 @@ def petNameParser(data,pet):
     if pet != "None":
         for i in data["player"]:
             if i == "petStats":
-                petname = data["player"]["petStats"][pet]["name"]
+                for j in data["player"]["petStats"][pet]:
+                    if j == "name":
+                        petname = data["player"]["petStats"][pet]["name"]
     return petname                 
 
 def firstLogin(data):
@@ -58,11 +60,33 @@ def lastLogin(data):
             lastLogin = datetime.datetime.fromtimestamp(lastLogin // 1000.0) 
     return lastLogin
 def isOnline(data):
-    if data["player"]["lastLogin"] > data["player"]["lastLogout"]:
-        return True
-    else:
-        return False                                                                
-myuuid = usernameToUUID("Narutoduck")
+    Status = False
+    for i in data["player"]:
+        if i == "lastLogin":    
+            if data["player"][i] > data["player"]["lastLogout"]:
+                Status = True
+            else:
+                Status = False
+    return Status              
+def karmaParser(data):
+    karma = 0
+    for i in data["player"]:
+        if i == "karma":
+            karma = data["player"][i]
+    return karma
+def totalXP(data):
+    xp = 0
+    for i in data["player"]:
+        if i == "networkExp":
+            xp = data["player"][i]
+    return xp        
+def currentGadget(data):
+    Gadget = "None"
+    for i in data["player"]:
+        if i == "currentGadget":
+            Gadget = data["player"][i].replace("_"," ")
+    return Gadget                                                                                                
+myuuid = usernameToUUID("IamSaulGoodman")
 data = playerInfo(key,myuuid)
 rank = rankParser(data)
 currentPet = petParser(data)
@@ -70,4 +94,7 @@ petname = petNameParser(data,currentPet)
 firstlogin = firstLogin(data)
 lastlogin = lastLogin(data)
 isonline = isOnline(data)
-print(isonline)   
+karma = karmaParser(data)
+xp = totalXP(data)
+Gadget = currentGadget(data)
+print(isonline)
