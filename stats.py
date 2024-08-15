@@ -112,8 +112,70 @@ def socialMediaParser(data):
                 Socials += f"{i}: {data['player']['socialMedia']['links'][i]}\n"
     if len(Socials) == 0:
         Socials = "None"        
-    return Socials                                                                                                                                  
-myuuid = usernameToUUID("IamHomelander")
+    return Socials
+def giftsStats(data):
+    Gifted = 0
+    if "giftingMeta" in data["player"]:
+        if "giftsGiven" in data["player"]["giftingMeta"]:
+            Gifted = data["player"]["giftingMeta"]["giftsGiven"]
+    return Gifted
+def skywarsTotalWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+       if "SkyWars" in data["player"]["stats"]:
+           if "wins" in data["player"]["stats"]["SkyWars"]:
+               wins = data["player"]["stats"]["SkyWars"]["wins"]
+    return wins
+def skywarsTotalKills(data):
+    kills = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "kills" in data["player"]["stats"]["SkyWars"]:
+                kills = data["player"]["stats"]["SkyWars"]["kills"]
+    return kills
+def skywarsTeamsKills(data):
+    kills = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "kills_team" in data["player"]["stats"]["SkyWars"]:
+                kills = data["player"]["stats"]["SkyWars"]["kills_team"]
+    return kills
+def skywarsSoloKills(data):
+    kills = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "kills_solo" in data["player"]["stats"]["SkyWars"]:
+                kills = data["player"]["stats"]["SkyWars"]["kills_solo"]
+    return kills
+def skywarsSoloWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "wins_solo" in data["player"]["stats"]["SkyWars"]:
+                wins = data["player"]["stats"]["SkyWars"]["wins_solo"]
+    return wins
+def skywarsTeamWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "wins_team" in data["player"]["stats"]["SkyWars"]:
+                wins = data["player"]["stats"]["SkyWars"]["wins_team"]
+    return wins                                                            
+def skywarsSouls(data):
+    souls = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "souls" in data["player"]["stats"]["SkyWars"]:
+                souls = data["player"]["stats"]["SkyWars"]["souls"]
+    return souls
+def buildbattleWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "BuildBattle" in data["player"]["stats"]:
+            if "wins" in data["player"]["stats"]["BuildBattle"]:
+                wins = data["player"]["stats"]["BuildBattle"]["wins"]
+    return wins                                                                                                                                                                                             
+myuuid = usernameToUUID("IamSaulGoodman")
 data = playerInfo(key,myuuid)
 rank = rankParser(data)
 currentPet = petParser(data)
@@ -129,3 +191,6 @@ Cloak = currentCloak(data)
 ClickEffect = currentClickEffect(data)
 Socials = socialMediaParser(data)
 Language = userLanguage(data)
+gifts = giftsStats(data)
+skywarsTeamsWins = skywarsTeamWins(data)
+print(buildbattleWins(data))
