@@ -1,7 +1,7 @@
 import requests
 import datetime
 
-key = ""
+key = "f0b1584f-84d2-44df-9510-2187bb071124"
 
 def usernameToUUID(username):
     request = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}")
@@ -85,7 +85,13 @@ def currentGadget(data):
     for i in data["player"]:
         if i == "currentGadget":
             Gadget = data["player"][i].replace("_"," ")
-    return Gadget                                                                                                
+    return Gadget
+def Favourites(data):
+    fav = "None"
+    for i in data["player"]:
+        if i == "vanityFavorites":
+            fav = data["player"][i].replace("_"," ").replace(";"," & ")
+    return fav                                                                                                            
 myuuid = usernameToUUID("IamSaulGoodman")
 data = playerInfo(key,myuuid)
 rank = rankParser(data)
@@ -97,4 +103,5 @@ isonline = isOnline(data)
 karma = karmaParser(data)
 xp = totalXP(data)
 Gadget = currentGadget(data)
-print(isonline)
+favourites = Favourites(data)
+print(favourites)
