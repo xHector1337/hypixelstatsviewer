@@ -46,7 +46,13 @@ def petNameParser(data,pet):
             if "name" in data["player"]["petStats"][pet]:
                 petname = data["player"]["petStats"][pet]["name"] 
     return petname                 
-
+def simpleCustomGameStatsChecker(GameName,data,valueToCheck):
+    stats = "None"
+    if "stats" in data["player"]:
+        if str(GameName) in data["player"]["stats"]:
+            if str(valueToCheck) in data["player"]["stats"][str(GameName)]:
+                stats = data["player"]["stats"][str(GameName)][str(valueToCheck)] 
+    return stats    
 def firstLogin(data):
     firstLogin = 0
     for i in data["player"]:
@@ -392,7 +398,63 @@ def skywarsTotalDeaths(data):
         if "SkyWars" in data["player"]["stats"]:
             if "deaths" in data["player"]["stats"]["SkyWars"]:
                 deaths = data["player"]["stats"]["SkyWars"]["deaths"]
-    return deaths                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+    return deaths
+def skywarsTotalEggsThrown(data):
+    eggs = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "egg_thrown" in data["player"]["stats"]["SkyWars"]:
+                eggs = data["player"]["stats"]["SkyWars"]["egg_thrown"]
+    return eggs
+def skywarsActiveDeathCry(data):
+    deathcry = "None"
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "active_deathcry" in data ["player"]["stats"]["SkyWars"]:
+                deathcry = data["player"]["stats"]["SkyWars"]["active_deathcry"].split("deathcry_")[1]
+                
+def skywarsAssists(data):
+    assists = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "assists" in data["player"]["stats"]["SkyWars"]:
+                assists = data["player"]["stats"]["SkyWars"]["assists"]
+    return assists            
+def skywarsSoloActiveKit(data):
+    kit = "None"
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "activeKit_SOLO" in data["player"]["stats"]["SkyWars"]:
+                kit = data["player"]["stats"]["SkyWars"]["activeKit_SOLO"].split("_solo_")[1]
+    return kit
+def skywarsTeamsActiveKit(data):
+    kit = "None"
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "activeKit_TEAMS" in data["player"]["stats"]["SkyWars"]:
+                kit = data["player"]["stats"]["SkyWars"]["activeKit_TEAMS"].split("_team_")[1]
+    return kit
+def skywarsEnderPearlsThrown(data):
+    pearls = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "enderpearls_thrown" in data["player"]["stats"]["SkyWars"]:
+                pearls = data["player"]["stats"]["SkyWars"]["enderpearls_thrown"]
+    return pearls
+def skywarsTotalHeads(data):
+    heads = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "heads" in data["player"]["stats"]["SkyWars"]:
+                heads = data["player"]["stats"]["SkyWars"]["heads"]
+    return heads 
+def skywarsActiveCage(data):
+    cage = "None"
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "active_cage" in data["player"]["stats"]["SkyWars"]:
+                cage = data["player"]["stats"]["SkyWars"]["active_cage"].split("cage_")[1].replace("_"," ")
+    return cage                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 myuuid = usernameToUUID("IamSaulGoodman")
 data = playerInfo(key,myuuid)
 rank = rankParser(data)
@@ -410,4 +472,4 @@ ClickEffect = currentClickEffect(data)
 Socials = socialMediaParser(data)
 Language = userLanguage(data)
 gifts = giftsStats(data)
-print(skywarsTotalDeaths(data))
+print(skywarsSoloActiveKit(data))
