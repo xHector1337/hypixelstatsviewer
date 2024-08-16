@@ -12,6 +12,12 @@ def usernameToUUID(username):
     request = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username.strip()}")
     data = request.json()
     return data["id"]
+def uuidToUsername(uuid):
+    if ("-") in uuid:
+        uuid = uuid.strip().replace("-","")
+    req = requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
+    data = req.json()
+    return data["name"]    
 def playerInfo(key,uuid):
     r = requests.get(f"https://api.hypixel.net/v2/player?key={key}&uuid={uuid}")
     data = r.json()
@@ -454,7 +460,98 @@ def skywarsActiveCage(data):
         if "SkyWars" in data["player"]["stats"]:
             if "active_cage" in data["player"]["stats"]["SkyWars"]:
                 cage = data["player"]["stats"]["SkyWars"]["active_cage"].split("cage_")[1].replace("_"," ")
-    return cage                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    return cage
+def skywarsLastPlayedMode(data):
+    mode = "None"
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "lastMode" in data["player"]["stats"]["SkyWars"]:
+                mode = data["player"]["stats"]["SkyWars"]["lastMode"]
+    return mode
+def skywarsGamesPlayed(data):
+    games = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "games_played_skywars" in data["player"]["stats"]["SkyWars"]:
+                games = data["player"]["stats"]["SkyWars"]["games_played_skywars"]
+    return games
+def skywarsActiveVictoryDance(data):
+    dance = "None"
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "active_victorydance" in data["player"]["stats"]["SkyWars"]:
+                dance = data["player"]["stats"]["SkyWars"]["active_victorydance"].split("victorydance_")[1].replace("_"," ")
+    return dance
+def supersmashActiveClass(data):
+    activeclass = "None"
+    if "stats" in data["player"]:
+        if "SuperSmash" in data["player"]["stats"]:
+            if "active_class" in data["player"]["stats"]["SuperSmash"]:
+                activeclass = data["player"]["stats"]["SuperSmash"]["active_class"]
+    return activeclass
+def supersmashWinStreak(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "SuperSmash" in data["player"]["stats"]:
+            if "win_streak" in data["player"]["stats"]["SuperSmash"]:
+                wins = data["player"]["stats"]["SuperSmash"]["win_streak"]
+    return wins
+def supersmashCoins(data):
+    coins = 0
+    if "stats" in data["player"]:
+        if "SuperSmash" in data["player"]["stats"]:
+            if "coins" in data["player"]["stats"]["SuperSmash"]:
+                coins = data["player"]["stats"]["SuperSmash"]["coins"]
+    return coins
+def supersmashWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "SuperSmash" in data["player"]["stats"]:
+            if "wins" in data["player"]["stats"]["SuperSmash"]:
+                wins = data["player"]["stats"]["SuperSmash"]["wins"]
+    return wins
+def supersmashTotalGames(data):
+    games = 0
+    if "stats" in data["player"]:
+        if "SuperSmash" in data["player"]["stats"]:
+            if "games" in data["player"]["stats"]["SuperSmash"]:
+                games = data["player"]["stats"]["SuperSmash"]["games"]
+    return games                                                            
+def supersmashDeaths(data):
+    deaths = 0
+    if "stats" in data["player"]:
+        if "SuperSmash" in data["player"]["stats"]:
+            if "deaths" in data["player"]["stats"]["SuperSmash"]:
+                deaths = data["player"]["stats"]["SuperSmash"]["deaths"]
+    return deaths
+def supersmashKills(data):
+    kills = 0
+    if "stats" in data["player"]:
+        if "SuperSmash" in data["player"]["stats"]:
+            if "kills" in data["player"]["stats"]["SuperSmash"]:
+                kills = data["player"]["stats"]["SuperSmash"]["kills"]
+    return kills
+def supersmashLevel(data):
+    level = 0
+    if "stats" in data["player"]:
+        if "SuperSmash" in data["player"]["stats"]:
+            if "smashLevel" in data["player"]["stats"]["SuperSmash"]:
+                level = data["player"]["stats"]["SuperSmash"]["smashLevel"]
+    return level
+def supersmashLosses(data):
+    losses = 0
+    if "stats" in data["player"]:
+        if "SuperSmash" in data["player"]["stats"]:
+            if "losses" in data["player"]["stats"]["SuperSmash"]:
+                losses = data["player"]["stats"]["SuperSmash"]["losses"]
+    return losses
+def arcadeCoins(data):
+    coins = 0
+    if "stats" in data["player"]:
+        if "Arcade" in data["player"]["stats"]:
+            if "coins" in data["player"]["stats"]["Arcade"]:
+                coins = data["player"]["stats"]["Arcade"]["coins"]
+    return coins                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 myuuid = usernameToUUID("IamSaulGoodman")
 data = playerInfo(key,myuuid)
 rank = rankParser(data)
@@ -472,4 +569,3 @@ ClickEffect = currentClickEffect(data)
 Socials = socialMediaParser(data)
 Language = userLanguage(data)
 gifts = giftsStats(data)
-print(skywarsSoloActiveKit(data))
