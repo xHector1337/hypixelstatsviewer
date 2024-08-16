@@ -1,7 +1,12 @@
 import requests
 import datetime
+import json
 
-key = "7ce2cf95-e8ea-441e-aee0-5f5ea22239cf"
+key = ""
+with open("settings.json","r") as f:
+    d = json.load(f)
+    key = d["key"]
+    f.close()
 
 def usernameToUUID(username):
     request = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username.strip()}")
@@ -10,11 +15,11 @@ def usernameToUUID(username):
 def playerInfo(key,uuid):
     r = requests.get(f"https://api.hypixel.net/v2/player?key={key}&uuid={uuid}")
     data = r.json()
-    if data["success"] == True and data["player"] != None:
+    if data["success"] == True and data["player"] != None and "null":
         return data                      
     else:
         print("We couldn't find the user.")
-        return "None"
+        return False
         
 def rankParser(data):
     rank = "None"
@@ -317,8 +322,78 @@ def bedwarsActiveProjectileTrail(data):
         if "Bedwars" in data["player"]["stats"]:
             if "activeProjectileTrail" in data["player"]["stats"]["Bedwars"]:
                 trail = data["player"]["stats"]["Bedwars"]["activeProjectileTrail"].split("projectiletrail_")[1]
-    return trail                                                                                                                                                                                                                                                                                                                                                                                                   
-myuuid = usernameToUUID("samnmie")
+    return trail
+def bedwarsActiveSprays(data):
+    sprays = "None"
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "activeSprays" in data["player"]["stats"]["Bedwars"]:
+                sprays = data["player"]["stats"]["Bedwars"]["activeSprays"].split("sprays_")[1]
+    return sprays
+def bedwarsActiveKillEffect(data):
+    effect = "None"
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "activeKillEffect" in data["player"]["stats"]["Bedwars"]:
+                effect = data["player"]["stats"]["Bedwars"]["activeKillEffect"].split("killeffect_")[1].replace("_"," ")
+    return effect            
+def bedwarsActiveGlyph(data):
+    glyph = "None"
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "activeGlyph" in data["player"]["stats"]["Bedwars"]:
+                glyph = data["player"]["stats"]["Bedwars"]["activeGlyph"].split("glyph_")[1]
+    return glyph
+def bedwarsActiveDeathCry(data):
+    deathCry = "None"
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "activeDeathCry" in data["player"]["stats"]["Bedwars"]:
+                deathCry = data["player"]["stats"]["Bedwars"]["activeDeathCry"].split("deathcry")[1]
+    return deathCry
+def bedwarsVictoryDance(data):
+    victoryDance = "None"
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "activeVictoryDance" in data["player"]["stats"]["Bedwars"]:
+                victoryDance = data["player"]["stats"]["Bedwars"]["activeVictoryDance"].split("victorydance_")[1].replace("_"," ")
+    return victoryDance
+def bedwarsActiveNPCSkin(data):
+    skin = "None"
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "activeNPCSkin" in data["player"]["stats"]["Bedwars"]:
+                skin = data["player"]["stats"]["Bedwars"]["activeNPCSkin"].split("skin_")[1]
+    return skin
+def skywarsHighestWinStreak(data):
+    streak = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "highestWinstreak" in data["player"]["stats"]["SkyWars"]:
+                streak = data["player"]["stats"]["SkyWars"]["highestWinstreak"]
+    return streak
+def skywarsHighestKillStreak(data):
+    streak = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "highestKillstreak" in data["player"]["stats"]["SkyWars"]:
+                streak = data["player"]["stats"]["SkyWaras"]["highestKillstreak"]
+    return streak
+def skywarsTotalLosses(data):
+    losses = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "losses" in data["player"]["stats"]["SkyWars"]:
+                losses = data["player"]["stats"]["SkyWars"]["losses"]
+    return losses
+def skywarsTotalDeaths(data):
+    deaths = 0
+    if "stats" in data["player"]:
+        if "SkyWars" in data["player"]["stats"]:
+            if "deaths" in data["player"]["stats"]["SkyWars"]:
+                deaths = data["player"]["stats"]["SkyWars"]["deaths"]
+    return deaths                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+myuuid = usernameToUUID("IamSaulGoodman")
 data = playerInfo(key,myuuid)
 rank = rankParser(data)
 currentPet = petParser(data)
@@ -335,5 +410,4 @@ ClickEffect = currentClickEffect(data)
 Socials = socialMediaParser(data)
 Language = userLanguage(data)
 gifts = giftsStats(data)
-print(bedwarsActiveProjectileTrail(data))
-
+print(skywarsTotalDeaths(data))
