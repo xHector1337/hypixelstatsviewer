@@ -1,7 +1,7 @@
 import requests
 import datetime
 
-key = ""
+key = "7ce2cf95-e8ea-441e-aee0-5f5ea22239cf"
 
 def usernameToUUID(username):
     request = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username.strip()}")
@@ -230,8 +230,95 @@ def buildbattleSoloMostPoints(data):
             if "solo_most_points" in data["player"]["stats"]["BuildBattle"]:
                 points = data["player"]["stats"]["BuildBattle"]["solo_most_points"]
     return points                                                
-                                                                                                                                                                                                                                                       
-myuuid = usernameToUUID("IamSaulGoodman")
+def userRecivedGifts(data):
+    gifts = 0
+    if "giftingMeta" in data["player"]:
+        if "bundlesRecieved" in data["player"]["giftingMeta"]:
+            gifts = data["player"]["giftingMeta"]["bundlesRecieved"]
+    return gifts
+def totalDailyRewards(data):
+    rewards = 0
+    if "totalDailyRewards" in data["player"]:
+        rewards = data["player"]["totalDailyRewards"]
+    return rewards
+def bedwarsExperience(data):
+    xp = 0
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "Experience" in data["player"]["stats"]["Bedwars"]:
+                xp = data["player"]["stats"]["Bedwars"]["Experience"]
+    return xp
+def bedwarsGamesPlayed(data):
+    games = 0
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "games_played_bedwars" in data["player"]["stats"]["Bedwars"]:
+                games = data["player"]["stats"]["Bedwars"]["games_played"]
+    return games
+def bedwarsCoins(data):
+    coins = 0
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "coins" in data["player"]["stats"]["Bedwars"]:
+                coins = data["player"]["stats"]["Bedwars"]["coins"]
+    return coins                        
+def bedwarsTotalDeaths(data):
+    death = 0
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "deaths_bedwars" in data["player"]["stats"]["Bedwars"]:
+                death = data["player"]["stats"]["Bedwars"]["deaths_bedwars"]
+    return death
+def bedwarsTotalLoses(data):
+    loses = 0
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "loses_bedwars" in data["player"]["stats"]["Bedwars"]:
+                loses = data["player"]["stats"]["Bedwars"]["loses_bedwars"]
+    return loses
+def bedwarsTotalPurchasedItems(data):
+    items = 0
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "_items_purchased_bedwars" in data["player"]["stats"]["Bedwars"]:
+                items = data["player"]["stats"]["Bedwars"]["_items_purchased_bedwars"]
+    return items
+def bedwarsKills(data):
+    kills = 0
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "kills_bedwars" in data["player"]["stats"]["Bedwars"]:
+                kills = data["player"]["stats"]["Bedwars"]["Bedwars"]["kills_bedwars"]
+    return kills
+def bedwarsTotalBrokenBeds(data):
+    beds = 0
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "beds_broken_bedwars" in data["player"]["stats"]["Bedwars"]:
+                beds = data["player"]["stats"]["Bedwars"]["beds_broken_bedwars"]
+    return beds
+def bedwarsWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "wins_bedwars" in data["player"]["stats"]["Bedwars"]:
+                wins = data["player"]["stats"]["Bedwars"]["wins_bedwars"]
+    return wins
+def bedwarsActiveIslandTopper(data):
+    topper ="None"
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "activeIslandTopper" in data["player"]["stats"]["Bedwars"]:
+                topper = data["player"]["stats"]["Bedwars"]["activeIslandTopper"].split("islandtopper_")[1]
+    return topper
+def bedwarsActiveProjectileTrail(data):
+    trail = "None"
+    if "stats" in data["player"]:
+        if "Bedwars" in data["player"]["stats"]:
+            if "activeProjectileTrail" in data["player"]["stats"]["Bedwars"]:
+                trail = data["player"]["stats"]["Bedwars"]["activeProjectileTrail"].split("projectiletrail_")[1]
+    return trail                                                                                                                                                                                                                                                                                                                                                                                                   
+myuuid = usernameToUUID("samnmie")
 data = playerInfo(key,myuuid)
 rank = rankParser(data)
 currentPet = petParser(data)
@@ -248,5 +335,5 @@ ClickEffect = currentClickEffect(data)
 Socials = socialMediaParser(data)
 Language = userLanguage(data)
 gifts = giftsStats(data)
-print(userRecentGameType(data))
+print(bedwarsActiveProjectileTrail(data))
 
