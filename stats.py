@@ -21,11 +21,10 @@ def uuidToUsername(uuid):
 def playerInfo(uuid):
     r = requests.get(f"https://api.hypixel.net/v2/player?key={key}&uuid={uuid}")
     data = r.json()
-    if data["success"] == True and data["player"] != None and "null":
+    if data["success"] == True and data["player"] != None and data["player"] != "null":
         return data                      
     else:
         print("We couldn't find the user.")
-        return False
         
 def rankParser(data):
     rank = "None"
@@ -305,7 +304,7 @@ def bedwarsKills(data):
     if "stats" in data["player"]:
         if "Bedwars" in data["player"]["stats"]:
             if "kills_bedwars" in data["player"]["stats"]["Bedwars"]:
-                kills = data["player"]["stats"]["Bedwars"]["Bedwars"]["kills_bedwars"]
+                kills = data["player"]["stats"]["Bedwars"]["kills_bedwars"]
     return kills
 def bedwarsTotalBrokenBeds(data):
     beds = 0
@@ -617,7 +616,7 @@ def murdermysteryDeaths(data):
 def murdermysteryCoins(data):
     coins = 0
     if "stats" in data["player"]:
-        if "MurderMysytery" in data["player"]["stats"]:
+        if "MurderMystery" in data["player"]["stats"]:
             if "coins" in data["player"]["stats"]["MurderMystery"]:
                 coins = data["player"]["stats"]["MurderMystery"]["coins"]
     return coins
@@ -648,4 +647,4 @@ def murdermysteryMurdererChance(data):
         if "MurderMystery" in data["player"]["stats"]:
             if "murderer_chance" in data["player"]["stats"]["MurderMystery"]:
                 chance = data["player"]["stats"]["MurderMystery"]["murderer_chance"]
-    return chance                                                                                     
+    return chance                                                                                  
