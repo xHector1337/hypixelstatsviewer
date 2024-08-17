@@ -18,7 +18,7 @@ def uuidToUsername(uuid):
     req = requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
     data = req.json()
     return data["name"]    
-def playerInfo(key,uuid):
+def playerInfo(uuid):
     r = requests.get(f"https://api.hypixel.net/v2/player?key={key}&uuid={uuid}")
     data = r.json()
     if data["success"] == True and data["player"] != None and "null":
@@ -551,21 +551,101 @@ def arcadeCoins(data):
         if "Arcade" in data["player"]["stats"]:
             if "coins" in data["player"]["stats"]["Arcade"]:
                 coins = data["player"]["stats"]["Arcade"]["coins"]
-    return coins                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-myuuid = usernameToUUID("IamSaulGoodman")
-data = playerInfo(key,myuuid)
-rank = rankParser(data)
-currentPet = petParser(data)
-petname = petNameParser(data,currentPet)
-firstlogin = firstLogin(data)
-lastlogin = lastLogin(data)
-isonline = isOnline(data)
-karma = karmaParser(data)
-xp = totalXP(data)
-Gadget = currentGadget(data)
-favourites = Favourites(data)
-Cloak = currentCloak(data)
-ClickEffect = currentClickEffect(data)
-Socials = socialMediaParser(data)
-Language = userLanguage(data)
-gifts = giftsStats(data)
+    return coins
+def simonsaysRounds(data):
+    rounds = 0
+    if "stats" in data["player"]:
+        if "Arcade" in data["player"]["stats"]:
+            if "rounds_simon_says" in data["player"]["stats"]["Arcade"]:
+                rounds = data["player"]["stats"]["Arcade"]["rounds_simon_says"]
+    return rounds
+def farmhuntWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "Arcade" in data["player"]["stats"]:
+            if "wins_farm_hunt" in data["player"]["stats"]["Arcade"]:
+                wins = data["player"]["stats"]["Arcade"]["wins_farm_hunt"]
+    return wins
+def pixelpartyGamesPlayed(data):
+    games = 0
+    if "stats" in data["player"]:
+        if "Arcade" in data["player"]["stats"]:
+            if "pixel_party" in data["player"]["stats"]["Arcade"]:
+                if "games_played" in data["player"]["stats"]["Arcade"]["pixel_party"]:
+                    games = data["player"]["stats"]["Arcade"]["pixel_party"]["games_played"]
+    return games
+def simpleCustomGameStatsCheckerEx(GameName,data,Value,SubValueToCheck):
+    value = "None"
+    if "stats" in data["player"]:
+        if GameName in data["player"]["stats"]:
+            if Value in data["player"]["stats"][GameName]:
+                if SubValueToCheck in data["player"]["stats"][GameName][Value]:
+                    value = data["player"]["stats"][GameName][Value][SubValueToCheck]
+    return value
+def dropperWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+          if "Arcade" in data["player"]["stats"]:
+              if "dropper" in data["player"]["stats"]["Arcade"]:
+                  if "wins" in data["player"]["stats"]["Arcade"]["dropper"]:
+                      wins = data["player"]["stats"]["Arcade"]["dropper"]["wins"]
+    return wins
+def dropperFails(data): # It is a function to demonstrate usage of simpleCustomGameStatsCheckerEx function.
+    fails = simpleCustomGameStatsCheckerEx("Arcade",data,"dropper","fails")
+    return fails
+def enderspleefTail(data):
+    trail = "None"
+    if "stats" in data["player"]:
+        if "Arcade" in data["player"]["stats"]:
+            if "enderspleef_trail" in data["player"]["stats"]["Arcade"]:
+                trail = data["player"]["stats"]["Arcade"]["enderspleef_trail"]
+    return trail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+def murdermysteryWins(data):
+    wins = 0
+    if "stats" in data["player"]:
+        if "MurderMystery" in data["player"]["stats"]:
+            if "wins" in data["player"]["stats"]["MurderMystery"]:
+                wins = data["player"]["stats"]["MurderMystery"]["wins"]
+    return wins
+def murdermysteryDeaths(data):
+    deaths = 0
+    if "stats" in data["player"]:
+        if "MurderMystery" in data["player"]["stats"]:
+            if "deaths" in data["player"]["stats"]["MurderMystery"]:
+                deaths = data["player"]["stats"]["MurderMystery"]["deaths"]
+    return deaths
+def murdermysteryCoins(data):
+    coins = 0
+    if "stats" in data["player"]:
+        if "MurderMysytery" in data["player"]["stats"]:
+            if "coins" in data["player"]["stats"]["MurderMystery"]:
+                coins = data["player"]["stats"]["MurderMystery"]["coins"]
+    return coins
+def murdermysteryGamesPlayed(data):
+    games = 0
+    if "stats" in data["player"]:
+        if "MurderMystery" in data["player"]["stats"]:
+            if "games" in data["player"]["stats"]["MurderMystery"]:
+                games = data["player"]["stats"]["MurderMystery"]["games"]
+    return games
+def murdermysteryKills(data):
+    kills = 0
+    if "stats" in data["player"]:
+        if "MurderMystery" in data["player"]["stats"]:
+            if "kills" in data["player"]["stats"]["MurderMystery"]:
+                kills = data["player"]["stats"]["MurderMystery"]["kills"]
+    return kills
+def murdermysteryDetectiveChance(data):
+    chance = 0
+    if "stats" in data["player"]:
+        if "MurderMystery" in data["player"]["stats"]:
+            if "detective_chance" in data["player"]["stats"]["MurderMystery"]:
+                chance = data["player"]["stats"]["MurderMystery"]["detective_chance"]
+    return chance
+def murdermysteryMurdererChance(data):
+    chance = 0
+    if "stats" in data["player"]:
+        if "MurderMystery" in data["player"]["stats"]:
+            if "murderer_chance" in data["player"]["stats"]["MurderMystery"]:
+                chance = data["player"]["stats"]["MurderMystery"]["murderer_chance"]
+    return chance                                                                                     
