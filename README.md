@@ -1,3 +1,4 @@
+![Ekran görüntüsü 2024-09-07 170424](https://github.com/user-attachments/assets/e45dd8e3-f6a6-4412-a8a6-fd477e6b6f36)
 # Hypixel Stats Viewer in Python
 
 `stats.py` is a hypixel library written in python and `bot.py` is a discord bot written with `discord.py` and `stats.py`
